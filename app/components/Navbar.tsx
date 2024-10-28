@@ -1,7 +1,7 @@
 export default function Navbar() {
   return (
     <header className="flex flex-wrap sm:justify-start sm:flex-nowrap w-full bg-white text-sm py-3">
-      <nav className="max-w-[85rem] w-full mx-auto px-4 flex flex-wrap basis-full items-center justify-between">
+      <nav className=" w-full mx-auto  flex flex-wrap basis-full items-center justify-between">
         <a
           className="sm:order-1 flex-none text-xl font-semibold  focus:outline-none focus:opacity-80"
           href="/"
