@@ -1,9 +1,12 @@
+import { useRouter } from "next/navigation";
+
 export default function Navbar() {
+  const router = useRouter()
   return (
-    <header className="flex flex-wrap sm:justify-start sm:flex-nowrap w-full bg-white text-sm py-3">
+    <header className="flex flex-wrap sm:justify-start sm:flex-nowrap w-full  text-sm py-3">
       <nav className=" w-full mx-auto  flex flex-wrap basis-full items-center justify-between">
         <a
-          className="sm:order-1 flex-none text-xl font-semibold  focus:outline-none focus:opacity-80"
+          className="sm:order-1 flex-none text-xl font-semibold dark:text-black  focus:outline-none focus:opacity-80"
           href="/"
         >
           PJM
@@ -26,9 +29,9 @@ export default function Navbar() {
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             >
               <line x1="3" x2="21" y1="6" y2="6" />
               <line x1="3" x2="21" y1="12" y2="12" />
@@ -42,9 +45,9 @@ export default function Navbar() {
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             >
               <path d="M18 6 6 18" />
               <path d="m6 6 12 12" />
@@ -54,6 +57,7 @@ export default function Navbar() {
           <button
             type="button"
             className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+            onClick={()=> router.push('/')}
           >
             Login
           </button>
