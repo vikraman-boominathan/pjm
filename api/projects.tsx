@@ -1,23 +1,29 @@
 import { AxiosError } from "axios";
 import instance from "./instance";
+import { Project } from "@/types/project.d";
 
 export async function getProjects() {
-  const token = localStorage.getItem("token");
   try {
-    
-    const res = await instance.get("api/projects", {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    
-
+    console.log("Fetching projects...");
+    const res = await instance.get("/api/projects");
+    console.log("API Response:", res.data);
     const data = res.data;
     return data;
   } catch (error) {
     if (error instanceof AxiosError) {
       console.log(error);
       const errorMessage = error.message || "An error occurred";
-      console.log(errorMessage);
+      console.log("project erre", errorMessage);
     }
-    console.log(error);
+    throw error;
   }
 }
+
+export const getProjectById = async ({ id }: { id: string }) => {
+  const res = await instance.get("/api/projects");
+  const dataById = res.data.find((x: Project) => x.id === id);
+
+  console.log(dataById);
+
+  return dataById;
+};

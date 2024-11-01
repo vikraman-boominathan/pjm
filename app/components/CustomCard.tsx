@@ -1,6 +1,6 @@
 import { Project } from "@/types/project.d";
 
-export default function Card({name, description }: Project) {
+export default function CustomCard({name, description }: Project) {
   return (
     <div>
       <div className="flex flex-col bg-slate-200 border min-h-52 shadow-sm rounded-xl">

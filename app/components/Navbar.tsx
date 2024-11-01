@@ -1,16 +1,23 @@
 import { useRouter } from "next/navigation";
+import authStore from "../stores/AuthStore";
+import { observer } from "mobx-react-lite";
+import Link from "next/link";
 
-export default function Navbar() {
-  const router = useRouter()
+const Navbar = observer(() => {
+  const router = useRouter();
+
+  const handleLogout = () => {
+    authStore.logout();
+    router.push("/");
+  };
+
   return (
-    <header className="flex flex-wrap sm:justify-start sm:flex-nowrap w-full  text-sm py-3">
-      <nav className=" w-full mx-auto  flex flex-wrap basis-full items-center justify-between">
-        <a
-          className="sm:order-1 flex-none text-xl font-semibold dark:text-black  focus:outline-none focus:opacity-80"
-          href="/"
-        >
+    <header className="flex flex-wrap sm:justify-start sm:flex-nowrap w-full text-sm py-3">
+      <nav className="w-full mx-auto flex flex-wrap basis-full items-center justify-between">
+        <a className="sm:order-1 flex-none text-xl font-semibold dark:text-black focus:outline-none focus:opacity-80">
           PJM
         </a>
+
         <div className="sm:order-3 flex items-center gap-x-2">
           <button
             type="button"
@@ -54,13 +61,24 @@ export default function Navbar() {
             </svg>
             <span className="sr-only">Toggle</span>
           </button>
-          <button
-            type="button"
-            className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
-            onClick={()=> router.push('/')}
-          >
-            Login
-          </button>
+
+          {authStore.authenticated ? (
+            <button
+              type="button"
+              className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+              onClick={handleLogout}
+            >
+              Logout
+            </button>
+          ) : (
+            <button
+              type="button"
+              className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+              onClick={() => router.push("/")}
+            >
+              Login
+            </button>
+          )}
         </div>
         <div
           id="hs-navbar-alignment"
@@ -68,13 +86,13 @@ export default function Navbar() {
           aria-labelledby="hs-navbar-alignment-collapse"
         >
           <div className="flex flex-col gap-5 mt-5 sm:flex-row sm:items-center sm:mt-0 sm:ps-5">
-            <a
+            <Link
+              href="/dashboard"
               className="font-medium text-blue-500 focus:outline-none"
-              href="#"
               aria-current="page"
             >
               Projects
-            </a>
+            </Link>
             <a
               className="font-medium text-gray-600 hover:text-gray-400 focus:outline-none focus:text-gray-400 dark:text-neutral-400 dark:hover:text-neutral-500 dark:focus:text-neutral-500"
               href="#"
@@ -98,4 +116,6 @@ export default function Navbar() {
       </nav>
     </header>
   );
-}
+});
+
+export default Navbar;

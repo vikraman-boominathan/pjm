@@ -11,14 +11,13 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
+import { observer } from "mobx-react-lite";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
-
-import { login } from "@/api/auth";
+import { useRef } from "react";
+import authStore from "./stores/AuthStore";
 import { LoginRequest } from "@/types/auth.d";
 
-export default function () {
-  const [authenticated, setAuthenticated] = useState(false);
+const Login = observer(() => {
   const router = useRouter();
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
@@ -30,23 +29,12 @@ export default function () {
       password: passwordRef.current?.value || "",
     };
 
-    try {
-      const data = await login(loginParams);
-      console.log(data?.status);
+    await authStore.login(loginParams);
 
-      if (data?.status === 200) {
-        setAuthenticated(true);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  useEffect(() => {
-    if (authenticated) {
+    if (authStore.authenticated) {
       router.push("/dashboard");
     }
-  }, [authenticated, router]);
+  };
 
   return (
     <form onSubmit={handleLogin}>
@@ -56,17 +44,16 @@ export default function () {
           <CardDescription>
             Please enter your email and password.
           </CardDescription>
+          {authStore.errorMessage && (
+            <CardDescription className="text-red-500">
+              {authStore.errorMessage}
+            </CardDescription>
+          )}
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
-            <Input
-              ref={emailRef}
-              id="email"
-              type="text"
-              placeholder="Email"
-              required
-            />
+            <Input ref={emailRef} id="email" type="text" placeholder="Email" required />
           </div>
           <div className="space-y-2">
             <Label htmlFor="password">Password</Label>
@@ -79,4 +66,6 @@ export default function () {
       </Card>
     </form>
   );
-}
+});
+
+export default Login;
